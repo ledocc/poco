@@ -30,11 +30,12 @@ namespace Poco {
 namespace Zip {
 
 
-Decompress::Decompress(std::istream& in, const Poco::Path& outputDir, bool flattenDirs, bool keepIncompleteFiles):
+Decompress::Decompress(std::istream& in, const Poco::Path& outputDir, bool flattenDirs, bool keepIncompleteFiles, bool forceRelativePath):
 	_in(in),
 	_outDir(outputDir),
 	_flattenDirs(flattenDirs),
 	_keepIncompleteFiles(keepIncompleteFiles),
+    _forceRelativePath(forceRelativePath),
 	_mapping()
 {
 	_outDir.makeAbsolute();
@@ -93,6 +94,7 @@ bool Decompress::handleZipEntry(std::istream& zipStream, const ZipLocalFileHeade
 	try
 	{
 		std::string fileName = hdr.getFileName();
+
 		if (_flattenDirs)
 		{
 			// remove path info
@@ -105,7 +107,15 @@ bool Decompress::handleZipEntry(std::istream& zipStream, const ZipLocalFileHeade
 			throw ZipException("Illegal entry name " + fileName + " containing parent directory reference");
 
 		Poco::Path file(fileName);
-		file.makeFile();
+        file.makeFile();
+
+        if (_forceRelativePath && file.isAbsolute())
+        {
+            file.setNode(std::string());
+            file.setDevice(std::string());
+            file.setAbsolute(false);
+        }
+
 		Poco::Path dest(_outDir, file);
 		dest.makeFile();
 		if (dest.depth() > 0)
