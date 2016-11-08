@@ -419,6 +419,13 @@ Path& Path::resolve(const Path& path)
 }
 
 
+Path& Path::setAbsolute(bool absolute)
+{
+    _absolute = absolute;
+    return *this;
+}
+
+
 Path& Path::setNode(const std::string& node)
 {
 	_node     = node;
