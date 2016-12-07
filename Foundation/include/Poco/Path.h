@@ -164,7 +164,7 @@ public:
 
 	Path& makeAbsolute(const Path& base);
 		/// Makes the path absolute if it is relative.
-		/// The given path is taken as base. 
+        /// The given path is taken as base.
 
 	Path& append(const Path& path);
 		/// Appends the given path.
@@ -174,6 +174,9 @@ public:
 		///
 		/// If the given path is absolute, it replaces the current one.
 		/// Otherwise, the relative path is appended to the current path.
+
+    Path& setAbsolute(bool absolute);
+        ///Set the absolute flag
 
 	bool isAbsolute() const;
 		/// Returns true iff the path is absolute.
