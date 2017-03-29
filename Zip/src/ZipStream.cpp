@@ -61,14 +61,14 @@ ZipStreamBuf::ZipStreamBuf(std::istream& istr, const ZipLocalFileHeader& fileEnt
 
 		// Fake adler at end of stream: just some dummy value, not checked anway
 		std::string crc(4, ' ');
-		if (fileEntry.searchCRCAndSizesAfterData())
-		{
-			_ptrHelper = new AutoDetectInputStream(istr, init, crc, reposition, start);
-		}
-		else
-		{
+//		if (fileEntry.searchCRCAndSizesAfterData())
+//		{
+//			_ptrHelper = new AutoDetectInputStream(istr, init, crc, reposition, start);
+//		}
+//		else
+//		{
 			_ptrHelper = new PartialInputStream(istr, start, end, reposition, init, crc);
-		}
+//		}
 		_ptrBuf = new Poco::InflatingInputStream(*_ptrHelper, Poco::InflatingStreamBuf::STREAM_ZIP);
 	}
 	else if (fileEntry.getCompressionMethod() == ZipCommon::CM_STORE)

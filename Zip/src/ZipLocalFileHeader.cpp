@@ -137,12 +137,12 @@ void ZipLocalFileHeader::parse(std::istream& inp, bool assumeHeaderRead)
 			_extraField = std::string(xtra.begin(), len);
 		}
 	}
-	if (!searchCRCAndSizesAfterData())
-	{
+//	if (!searchCRCAndSizesAfterData())
+//	{
 		_crc32 = getCRCFromHeader();
 		_compressedSize = getCompressedSizeFromHeader();
 		_uncompressedSize = getUncompressedSizeFromHeader();
-	}
+//	}
 }
 
 
