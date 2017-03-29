@@ -76,7 +76,7 @@ bool Decompress::handleZipEntry(std::istream& zipStream, const ZipLocalFileHeade
 {
 	if (hdr.isDirectory())
 	{
-		// directory have 0 size, nth to read
+		zipStream.seekg(hdr.getCompressedSize(), std::istream::cur);
 		if (!_flattenDirs)
 		{
 			std::string dirName = hdr.getFileName();
